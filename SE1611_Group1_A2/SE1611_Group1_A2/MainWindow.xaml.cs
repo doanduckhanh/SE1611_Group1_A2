@@ -24,5 +24,22 @@ namespace SE1611_Group1_A2
         {
             InitializeComponent();
         }
+
+        private void shopping_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void cart_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void login_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void album_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
