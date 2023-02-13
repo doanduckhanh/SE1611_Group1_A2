@@ -39,7 +39,7 @@
                                     <Label Name="lbTitle1" Foreground="Red" Content="Album1: " FontSize="22"/>
                                     <Label Name="lbPrice1" Foreground="Red" Content="USD " FontSize="22"/>
                                 </DockPanel>
-                                <Image Name="imgAlbum1" Width="180" Source="C:\Users\khanh doan\Downloads\beha.jpg"/>
+                                <Image Name="imgAlbum1" Width="180" Source="/yasuo.png"/>
                                 <Button x:Name="btAddToCart1" Content="Add to cart" FontSize="22" Click="btAddToCart_Click" Width="185"/>
                             </StackPanel>
                         </DockPanel>
@@ -51,7 +51,7 @@
                                     <Label Name="lbTitle2" Foreground="Red" Content="Album2: " FontSize="22"/>
                                     <Label Name="lbPrice2" Foreground="Red" Content="USD " FontSize="22"/>
                                 </DockPanel>
-                                <Image Name="imgAlbum2" Width="180" Source="C:\Users\khanh doan\Downloads\beha.jpg"/>
+                                <Image Name="imgAlbum2" Width="180" Source="/yasuo.png"/>
                                 <Button x:Name="btAddToCart2" Content="Add to cart" FontSize="22" Click="btAddToCart_Click" Width="185"/>
                             </StackPanel>
                         </DockPanel>
@@ -63,7 +63,7 @@
                                     <Label Name="lbTitle3" Foreground="Red" Content="Album1: " FontSize="22"/>
                                     <Label Name="lbPrice3" Foreground="Red" Content="USD " FontSize="22"/>
                                 </DockPanel>
-                                <Image Name="imgAlbum3" Width="180" Source="C:\Users\khanh doan\Downloads\beha.jpg"/>
+                                <Image Name="imgAlbum3" Width="180" Source="/yasuo.png"/>
                                 <Button x:Name="btAddToCart3" Content="Add to cart" FontSize="22" Click="btAddToCart_Click" Width="185"/>
                             </StackPanel>
                         </DockPanel>
@@ -75,7 +75,7 @@
                                     <Label Name="lbTitle4" Foreground="Red" Content="Album1: " FontSize="22"/>
                                     <Label Name="lbPrice4" Foreground="Red" Content="USD " FontSize="22"/>
                                 </DockPanel>
-                                <Image Name="imgAlbum4" Width="180" Source="C:\Users\khanh doan\Downloads\beha.jpg"/>
+                                <Image Name="imgAlbum4" Width="180" Source="/yasuo.png"/>
                                 <Button x:Name="btAddToCart4" Content="Add to cart" FontSize="22" Click="btAddToCart_Click" Width="185"/>
                             </StackPanel>
                         </DockPanel>
