@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SE1611_Group1_A2" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CartId" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">null</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

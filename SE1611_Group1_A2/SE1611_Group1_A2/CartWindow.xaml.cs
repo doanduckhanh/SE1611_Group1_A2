@@ -18,45 +18,17 @@ namespace SE1611_Group1_A2
         public CartWindow()
         {
             InitializeComponent();
+            if (UserSession.UserName != null)
+            {
+                MigrateCart();
+                Settings.Default["CartId"] = UserSession.UserName;
+                Settings.Default.Save();
+            }          
         }
 
-        //public const string ShoppingCartId = "user";
 
-        //public static CartWindow GetCart()
-        //{
-        //    var cart = new CartWindow();
-        //    cart.ShoppingCartId = cart.GetCartId();
-        //    return cart;
-        //}
 
-        public void AddToCart(Album album)
-        {
-            // Get the matching cart and album instances
-            var cartItem = storeDB.Carts.SingleOrDefault(
-                c => c.CartId == ShoppingCartId
-                && c.AlbumId == album.AlbumId);
 
-            if (cartItem == null)
-            {
-                // Create a new cart item if no cart item exists
-                cartItem = new Cart
-                {
-                    AlbumId = album.AlbumId,
-                    CartId = ShoppingCartId,
-                    Count = 1,
-                    DateCreated = DateTime.Now
-                };
-
-                storeDB.Carts.Add(cartItem);
-            }
-            else
-            {
-                // If the item does exist in the cart, then add one to the quantity
-                cartItem.Count++;
-            }
-            // Save changes
-            storeDB.SaveChanges();
-        }
 
 
 
@@ -136,33 +108,9 @@ namespace SE1611_Group1_A2
             // Return the OrderId as the confirmation number
             return orderID;
         }
-        //public string GetCartId()
-        //{
-        //    if (Settings.CartId == null)
-        //    {
-        //        if (Settings.UserName != null)
-        //            Settings.CartId = Settings.UserName;
-        //        else
-        //        {
-        //            Guid tempCartId = Guid.NewGuid();
-        //            Settings.CartId = tempCartId.ToString();
-        //        }
-        //    }
-        //    return Settings.CartId;
-        //}
 
-        // When a user has logged in, migrate their shopping cart to
-        // be associated with their username
-        //public void MigrateCart()
-        //{
-        //    var shoppingCart = storeDB.Carts.Where(c => c.CartId == ShoppingCartId);
-        //    foreach (Cart item in shoppingCart)
-        //    {
-        //        item.CartId = Settings.UserName;
-        //    }
-        //    storeDB.SaveChanges();
-        //    Settings.CartId = null;
-        //}
+
+
 
         //--------------------------------------- 
         private void btnCheckout_Click(object sender, RoutedEventArgs e)
@@ -172,17 +120,28 @@ namespace SE1611_Group1_A2
 
         private void lvAlbumId_Loaded(object sender, RoutedEventArgs e)
         {
+            string cartId;
+            if (UserSession.UserName == null)
+            {
+                btnCheckout.IsEnabled = false;
+                cartId = Settings.Default["CartId"].ToString();
+            }
+            else
+            { 
+                btnCheckout.IsEnabled = true; 
+                cartId = UserSession.UserName;
+            }
+            
             storeDB.Albums.ToList();
-            lvAlbum.ItemsSource = storeDB.Carts.Where(x => x.CartId.Equals("user")).ToList();
+            lvAlbum.ItemsSource = storeDB.Carts.Where(x => x.CartId.Equals(cartId)).ToList();
             txtTotal.Text = GetTotal().ToString();
-            string SettingsDemo = null;
-            if (SettingsDemo == null) btnCheckout.IsEnabled= false; 
+            
         }
         public int RemoveFromCart(int id)
         {
             // Get the matching cart and album id
             var cartItem = storeDB.Carts.SingleOrDefault(
-                c => c.CartId == ShoppingCartId
+                c => c.CartId == Settings.Default["CartId"].ToString()
                 && c.RecordId == id);
 
             int itemCount = 0;
@@ -208,7 +167,7 @@ namespace SE1611_Group1_A2
             // the current price for each of those albums in the cart
             // sum all album price totals to get the cart total
             decimal? total = (from cartItems in storeDB.Carts
-                              where cartItems.CartId == ShoppingCartId
+                              where cartItems.CartId == Settings.Default["CartId"].ToString()
                               select (int?)cartItems.Count * cartItems.Album.Price).Sum();
             return total ?? 0;
         }
@@ -218,6 +177,18 @@ namespace SE1611_Group1_A2
             Cart cart = b.CommandParameter as Cart;
             RemoveFromCart(cart.RecordId);
             lvAlbumId_Loaded(sender, e);
+        }
+
+        public void MigrateCart()
+        {
+            var shoppingCart = storeDB.Carts.Where(c => c.CartId == Settings.Default["CartId"].ToString());
+            foreach (Cart item in shoppingCart)
+            {
+                item.CartId = UserSession.UserName;
+            }
+            storeDB.SaveChanges();
+            Settings.Default["CartId"] = string.Empty;
+            Settings.Default.Save();
         }
     }
 }

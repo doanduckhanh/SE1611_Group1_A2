@@ -22,6 +22,9 @@ namespace SE1611_Group1_A2
     {
         MusicStoreContext musicStoreContext = new MusicStoreContext();
         int pageIndex;
+        int album1;
+
+        public string ShoppingCartId { get; set; }
         public ShoppingWindow()
         {
             InitializeComponent();
@@ -37,7 +40,14 @@ namespace SE1611_Group1_A2
             {
                 btnPrevious.IsEnabled = true;
             }
+            //check login và đổ items vào acc
+            //if(UserSession.UserName != null)
+            //{
+            //    MigrateCart();
+            //}
+
         }
+
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
@@ -94,6 +104,7 @@ namespace SE1611_Group1_A2
                 albums = musicStoreContext.Albums.Skip(4*pageIndex).Take(4).ToList();
                 if(albums[0] != null) {
                     lbTitle1.Content = albums[0].Title;
+                    album1 = albums[0].AlbumId;
                     lbPrice1.Content = albums[0].Price.ToString() + " USD";
                 } else
                 {
@@ -171,8 +182,78 @@ namespace SE1611_Group1_A2
         }
 
         private void btAddToCart_Click(object sender, RoutedEventArgs e)
-        {
-
+        {                
+            var cart = GetCart();
+            var album = musicStoreContext.Albums.SingleOrDefault(x => x.AlbumId == album1);
+            AddToCart(album, cart.ShoppingCartId);
+            CartWindow cartWindow = new CartWindow();
+            cartWindow.Show();
         }
+
+        public static ShoppingWindow GetCart()
+        {
+            var cart = new ShoppingWindow();
+            cart.ShoppingCartId = cart.GetCartId();
+            return cart;
+        }
+
+        public string GetCartId()
+        {
+            if (Settings.Default["CartId"].ToString().Equals(string.Empty))
+            {
+                if (UserSession.UserName != null)
+                    Settings.Default["CartId"] = UserSession.UserName;
+                else
+                {
+                    Guid tempCartId = Guid.NewGuid();
+                    Settings.Default["CartId"] = tempCartId.ToString();
+                }
+                Settings.Default.Save();
+            }
+            return Settings.Default["CartId"].ToString();
+        }
+        public void AddToCart(Album album,String ShoppingCartId)
+        {
+            // Get the matching cart and album instances
+            var cartItem = musicStoreContext.Carts.SingleOrDefault(
+                c => c.CartId == ShoppingCartId
+                && c.AlbumId == album.AlbumId);
+
+            if (cartItem == null)
+            {
+                // Create a new cart item if no cart item exists
+                cartItem = new Cart
+                {
+                    AlbumId = album.AlbumId,
+                    CartId = ShoppingCartId,
+                    Count = 1,
+                    DateCreated = DateTime.Now
+                };
+
+                musicStoreContext.Carts.Add(cartItem);
+            }
+            else
+            {
+                // If the item does exist in the cart, then add one to the quantity
+                cartItem.Count++;
+            }
+            // Save changes
+            musicStoreContext.SaveChanges();
+        }
+
+        // When a user has logged in, migrate their shopping cart to
+        // be associated with their username
+        //public void MigrateCart()
+        //{
+        //    var shoppingCart = musicStoreContext.Carts.Where(c => c.CartId == Settings.Default["CartId"].ToString());
+        //    foreach (Cart item in shoppingCart)
+        //    {
+        //        item.CartId = UserSession.UserName;
+        //    }
+        //    musicStoreContext.SaveChanges();
+        //    Settings.Default["CartId"] = string.Empty;
+        //    Settings.Default.Save();
+        //}
+
     }
 }
