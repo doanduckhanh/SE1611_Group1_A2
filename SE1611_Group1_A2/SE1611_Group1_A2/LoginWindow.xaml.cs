@@ -22,7 +22,7 @@ namespace SE1611_Group1_A2
     public partial class LoginWindow : Window
     {
         MusicStoreContext dbContext;
-        public static bool adminRole;
+   
         public LoginWindow()
         {
             InitializeComponent();
@@ -50,7 +50,6 @@ namespace SE1611_Group1_A2
              
                 if (user?.Role == adRole)
                 {
-                    adminRole = true;
                     this.Close();
                 }
                 else if (user?.Role == uRole)
