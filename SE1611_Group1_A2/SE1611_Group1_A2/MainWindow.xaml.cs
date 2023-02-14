@@ -31,7 +31,8 @@ namespace SE1611_Group1_A2
         }
         private void cart_Click(object sender, RoutedEventArgs e)
         {
-
+            CartWindow cartWindow = new CartWindow();
+            cartWindow.Show();
         }
         private void login_Click(object sender, RoutedEventArgs e)
         {
