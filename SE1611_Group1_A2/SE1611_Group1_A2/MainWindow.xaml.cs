@@ -1,6 +1,8 @@
-﻿using System;
+﻿using SE1611_Group1_A2.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +25,7 @@ namespace SE1611_Group1_A2
         public MainWindow()
         {
             InitializeComponent();
+            tbAuthor.Text = "SE1611_Group1 - Nguyễn Tiến Nhất | Đoàn Đức Khánh | Nguyễn Hữu Thành | Nguyễn Huy Hoàng";
         }
 
         private void shopping_Click(object sender, RoutedEventArgs e)
@@ -36,7 +39,55 @@ namespace SE1611_Group1_A2
         }
         private void login_Click(object sender, RoutedEventArgs e)
         {
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.ShowDialog();
+            string? userName = UserSession.UserName;
+            if(userName != null ) {
+                loginSuccessful();
+            }else
+            {
+                logoutSuccessful();
+            }
+            
 
+        }
+        private void logout_Click(object sender, RoutedEventArgs e)
+        {
+            clearUserData();
+            logoutSuccessful();
+        }
+
+
+        public void loginSuccessful()
+        {
+            string? userName = UserSession.UserName;
+            int role = UserSession.Role;
+            menuLogin.Header = "Logout ("+userName+")";
+            menuLogin.Click -= login_Click;
+            menuLogin.Click += logout_Click;
+            if(role == 1)
+            {
+                menuAlbum.IsEnabled = true;
+            }
+            else
+            {
+                menuAlbum.IsEnabled = false;
+            }
+            
+        }
+        public void logoutSuccessful()
+        {
+            menuLogin.Header = "Login";
+            menuLogin.Click -= logout_Click;
+            menuLogin.Click += login_Click;
+            menuAlbum.IsEnabled = false;
+        }
+
+        public void clearUserData()
+        {
+            UserSession.UserName = null;
+            UserSession.Password = null;
+            UserSession.Role = 0;
         }
         private void album_Click(object sender, RoutedEventArgs e)
         {
