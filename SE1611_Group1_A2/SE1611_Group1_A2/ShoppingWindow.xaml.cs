@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using
 
 namespace SE1611_Group1_A2
 {
@@ -22,6 +23,7 @@ namespace SE1611_Group1_A2
     {
         MusicStoreContext musicStoreContext = new MusicStoreContext();
         int pageIndex;
+        int idAlbum1;
         public ShoppingWindow()
         {
             InitializeComponent();
@@ -88,86 +90,7 @@ namespace SE1611_Group1_A2
 
         void LoadShop(int pageIndex, int genreid)
         {
-            if(genreid == 0)
-            {
-                List<Album> albums = new List<Album>();
-                albums = musicStoreContext.Albums.Skip(4*pageIndex).Take(4).ToList();
-                if(albums[0] != null) {
-                    lbTitle1.Content = albums[0].Title;
-                    lbPrice1.Content = albums[0].Price.ToString() + " USD";
-                } else
-                {
-                    pnAlbum1.Visibility = Visibility.Hidden;
-                }
-                if (albums[1] != null)
-                {
-                    lbTitle2.Content = albums[1].Title;
-                    lbPrice2.Content = albums[1].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum2.Visibility = Visibility.Hidden;
-                }
-                if (albums[2] != null)
-                {
-                    lbTitle3.Content = albums[2].Title;
-                    lbPrice3.Content = albums[2].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum3.Visibility = Visibility.Hidden;
-                }
-                if (albums[0] != null)
-                {
-                    lbTitle4.Content = albums[3].Title;
-                    lbPrice4.Content = albums[3].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum4.Visibility = Visibility.Hidden;
-                }
-
-            } else
-            {
-                List<Album> albums = new List<Album>();
-                albums = musicStoreContext.Albums.Where(x => x.GenreId == genreid).Skip(4 * pageIndex).Take(4).ToList();
-                if (albums[0] != null)
-                {
-                    lbTitle1.Content = albums[0].Title;
-                    lbPrice1.Content = albums[0].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum1.Visibility = Visibility.Hidden;
-                }
-                if (albums[1] != null)
-                {
-                    lbTitle2.Content = albums[1].Title;
-                    lbPrice2.Content = albums[1].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum2.Visibility = Visibility.Hidden;
-                }
-                if (albums[2] != null)
-                {
-                    lbTitle3.Content = albums[2].Title;
-                    lbPrice3.Content = albums[2].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum3.Visibility = Visibility.Hidden;
-                }
-                if (albums[0] != null)
-                {
-                    lbTitle4.Content = albums[3].Title;
-                    lbPrice4.Content = albums[3].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum4.Visibility = Visibility.Hidden;
-                }
-            }
+            
         }
 
         private void btAddToCart_Click(object sender, RoutedEventArgs e)
