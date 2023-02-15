@@ -6,26 +6,41 @@
         xmlns:local="clr-namespace:SE1611_Group1_A2"
         mc:Ignorable="d"
         Title="ShoppingWindow" Width="820"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Grid Background="#FFA4DFDF" Name="FGrid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="33*" />
-            <ColumnDefinition Width="50*" />
-            <ColumnDefinition Width="33*" />
-            <ColumnDefinition Width="50*" />
-            <ColumnDefinition Width="33*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="13*" />
-            <RowDefinition Height="38*" />
-            <RowDefinition Height="5*" />
-            <RowDefinition Height="38*" />
-            <RowDefinition Height="20*" />
-        </Grid.RowDefinitions>
-        <Label Content="Genre:" HorizontalAlignment="Left" Grid.Row="0" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="14"/>
-        <ComboBox x:Name="genreCb" HorizontalAlignment="Left" Grid.Row="0" Grid.ColumnSpan="2" Margin="65,14,0,0" VerticalAlignment="Top" Width="197" FontSize="14"/>
-        <Button x:Name="searchBt" Content="Search" HorizontalAlignment="Left" Margin="145,14,0,0" VerticalAlignment="Top" FontSize="14" Height="25" Width="51" Click="searchBt_Click" Grid.Column="1"/>
-        <Button x:Name="previousBt" Grid.RowSpan="5" Grid.ColumnSpan="3" Content="Previous" HorizontalAlignment="Left" Margin="310,500,0,0" VerticalAlignment="Top" FontSize="14" Height="37" Width="67" Click="previousBt_Click"/>
-        <Button x:Name="nextBt" Content="Next" Grid.RowSpan="5" Grid.ColumnSpan="4" HorizontalAlignment="Left" Margin="434,500,0,0" VerticalAlignment="Top" FontSize="14" Height="37" Width="67" Click="nextBt_Click"/>
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight">
+    <Grid Background="LightBlue">
+        <DockPanel VerticalAlignment="Top" Margin="10">
+            <Grid>
+                <StackPanel Orientation ="Vertical"
+                HorizontalAlignment="Left" Width="800">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Name="lbGenre" Content="Genre:" FontSize="20"/>
+                        <ComboBox Name="cbGenre"
+                          Height="25" Width="297"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="GenreId"/>
+                        <Button x:Name="btnSearch" Margin="10" Width="75" Height="25" Content="Search"
+                        Click="btnSearch_Click"/>
+                    </StackPanel>
+                    <Grid Name="Fgrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="260"/>
+                            <RowDefinition Height="260"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="410"></ColumnDefinition>
+                            <ColumnDefinition Width="410"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal"
+ HorizontalAlignment="Center" Margin="0,20,0,0" Grid.RowSpan="2">
+                        <Button x:Name="btnPrevious" Margin="10" Width="80" Content="Previous"
+ Click="btnPrevious_Click"/>
+                        <Button x:Name="btnNext" Margin="10" Width="80" Content="Next"
+ Click="btnNext_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
     </Grid>
 </Window>

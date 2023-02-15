@@ -36,13 +36,13 @@ namespace SE1611_Group1_A2
         {
             var listGenre = context.Genres.Distinct().ToList();
             listGenre.Insert(0, new Genre { GenreId = 0, Name = "All" });
-            genreCb.ItemsSource = listGenre;
-            genreCb.DisplayMemberPath = "Name";
-            genreCb.SelectedValuePath = "GenreId";
-            genreCb.SelectedIndex = 0;
+            cbGenre.ItemsSource = listGenre;
+            cbGenre.DisplayMemberPath = "Name";
+            cbGenre.SelectedValuePath = "GenreId";
+            cbGenre.SelectedIndex = 0;
             if (albumPaging.PageIndex == 1)
             {
-                previousBt.IsEnabled = false;
+                btnPrevious.IsEnabled = false;
             }
             Album_Load(GetAlbums(1, 4));
         }
@@ -51,65 +51,56 @@ namespace SE1611_Group1_A2
         {
             int i = 0;
             foreach (var item in list)
-            {
-                Grid grid = new Grid();
-                TextBlock textBlock = new TextBlock();
+            {              
+                StackPanel stackPanel = new StackPanel();
+                stackPanel.HorizontalAlignment = HorizontalAlignment.Center;
+                stackPanel.Orientation = Orientation.Vertical;
+                Label label = new Label();
                 Image image = new Image();
                 Button button = new Button();
-                RowDefinition rowDef1 = new RowDefinition() { Height = new GridLength(16.0, GridUnitType.Star) };
-                RowDefinition rowDef2 = new RowDefinition() { Height = new GridLength(66.0, GridUnitType.Star) };
-                RowDefinition rowDef3 = new RowDefinition() { Height = new GridLength(16.0, GridUnitType.Star) };
-                ColumnDefinition colDef1 = new ColumnDefinition() { Width = new GridLength(18.0, GridUnitType.Star) };
-                ColumnDefinition colDef2 = new ColumnDefinition() { Width = new GridLength(64.0, GridUnitType.Star) };
-                ColumnDefinition colDef3 = new ColumnDefinition() { Width = new GridLength(18.0, GridUnitType.Star) };
-                grid.RowDefinitions.Add(rowDef1);
-                grid.RowDefinitions.Add(rowDef2);
-                grid.RowDefinitions.Add(rowDef3);
-                grid.ColumnDefinitions.Add(colDef1);
-                grid.ColumnDefinitions.Add(colDef2);
-                grid.ColumnDefinitions.Add(colDef3);
-                grid.Height = double.NaN;
-                grid.Width = double.NaN;
-                grid.VerticalAlignment = VerticalAlignment.Center;
-                grid.HorizontalAlignment = HorizontalAlignment.Center;
-                textBlock.Text = $"{item.Title}: {item.Price} USD";
-                textBlock.TextAlignment = TextAlignment.Center;
-                textBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                textBlock.VerticalAlignment = VerticalAlignment.Top;
-                textBlock.TextWrapping = TextWrapping.NoWrap;
-                textBlock.FontSize = 13;
-                textBlock.Width = double.NaN;
-                textBlock.Foreground = Brushes.Red;
-                textBlock.FontWeight = FontWeights.SemiBold;
-                textBlock.Margin = new Thickness(0,0,0,4);
-                image.Margin = new Thickness(0, 10, 0, 0);
-                image.Source = new BitmapImage(new Uri("yasuo.png", UriKind.Relative));
-                image.Height = double.NaN;
-                image.Width = double.NaN;
+                label.Content = item.Title +": "+item.Price+ " USD";
+                label.Foreground = Brushes.Red;
+                label.FontSize = 15;
+                label.HorizontalAlignment = HorizontalAlignment.Center;
+                //String url = item.AlbumUrl.Replace("/", "\\");
+                image.Source = new BitmapImage(new Uri("/yasuo.png",UriKind.Relative));
+                image.Width = 180;
                 button.Content = "Add to cart";
                 button.Tag = item;
-                button.Click += AddToCart_Click;
+                button.Click += btnAddToCart_Click;
                 button.HorizontalAlignment = HorizontalAlignment.Center;
                 button.VerticalAlignment = VerticalAlignment.Center;
                 button.Width = double.NaN;
                 button.Margin = new Thickness(0, 10, 0, 0);
-                grid.Children.Add(textBlock);
-                Grid.SetRow(textBlock, 0);
-                Grid.SetColumnSpan(textBlock, 3);
-                grid.Children.Add(image);
-                Grid.SetRow(image, 1);
-                Grid.SetColumn(image, 1);
-                grid.Children.Add(button);
-                Grid.SetRow(button, 2);
-                Grid.SetColumnSpan(button, 3);
-                FGrid.Children.Add(grid);
-                Grid.SetRow(grid, i == 0 ? 1 : i == 1 ? 1 : 3);
-                Grid.SetColumn(grid, i == 0 ? 1 : i == 2 ? 1 : 3);
+                stackPanel.Children.Add(label);
+                stackPanel.Children.Add(image);
+                stackPanel.Children.Add(button);
+                Fgrid.Children.Add(stackPanel);
+                if (i == 0)
+                {
+                    Grid.SetRow(stackPanel, 0);
+                    Grid.SetColumn(stackPanel, 0);
+                }
+                else if (i == 1)
+                {
+                    Grid.SetRow(stackPanel, 0);
+                    Grid.SetColumn(stackPanel, 1);
+                }
+                else if (i == 2)
+                {
+                    Grid.SetRow(stackPanel, 1);
+                    Grid.SetColumn(stackPanel, 0);
+                }
+                else if (i == 3)
+                {
+                    Grid.SetRow(stackPanel, 1);
+                    Grid.SetColumn(stackPanel, 1);
+                }
                 i++;
             }
         }
 
-        private void AddToCart_Click(object sender, RoutedEventArgs e)
+        private void btnAddToCart_Click(object sender, RoutedEventArgs e)
         {
             //if (login.UserId != -1)
             //{
@@ -127,64 +118,64 @@ namespace SE1611_Group1_A2
             //}
         }
 
-        private void nextBt_Click(object sender, RoutedEventArgs e)
+        private void btnNext_Click(object sender, RoutedEventArgs e)
         {
-            FGrid.Children.RemoveRange(5, 4);
+            Fgrid.Children.Clear();
             albumPaging = GetAlbums(albumPaging.PageIndex + 1, 4);
             if (!albumPaging.HasNextPage)
             {
-                nextBt.IsEnabled = false;
+                btnNext.IsEnabled = false;
             }
             else
             {
-                nextBt.IsEnabled = true;
+                btnNext.IsEnabled = true;
             }
             if (albumPaging.HasPreviousPage)
             {
-                previousBt.IsEnabled = true;
+                btnPrevious.IsEnabled = true;
             }
             else
             {
-                previousBt.IsEnabled = false;
+                btnPrevious.IsEnabled = false;
             }
             Album_Load(albumPaging);
         }
 
-        private void previousBt_Click(object sender, RoutedEventArgs e)
+        private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
-            FGrid.Children.RemoveRange(5, 4);
+            Fgrid.Children.Clear();
             albumPaging = GetAlbums(albumPaging.PageIndex - 1, 4);
             if (!albumPaging.HasNextPage)
             {
-                nextBt.IsEnabled = false;
+                btnNext.IsEnabled = false;
             }
             else
             {
-                nextBt.IsEnabled = true;
+                btnNext.IsEnabled = true;
             }
             if (albumPaging.HasPreviousPage)
             {
-                previousBt.IsEnabled = true;
+                btnPrevious.IsEnabled = true;
             }
             else
             {
-                previousBt.IsEnabled = false;
+                btnPrevious.IsEnabled = false;
             }
             Album_Load(albumPaging);
         }
-        private void searchBt_Click(object sender, RoutedEventArgs e)
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            if ((int)genreCb.SelectedValue != 0)
-                albums = context.Albums.Where(x => x.GenreId == (int)genreCb.SelectedValue).ToList();
+            if ((int)cbGenre.SelectedValue != 0)
+                albums = context.Albums.Where(x => x.GenreId == (int)cbGenre.SelectedValue).ToList();
             else
                 albums = context.Albums.ToList();
             albumPaging = new PaginatedList<Album>(albums, albums.Count, 1, 4);
-            FGrid.Children.RemoveRange(5, 4);
+            Fgrid.Children.Clear();
             if (albumPaging.HasNextPage)
             {
-                nextBt.IsEnabled = true;
+                btnNext.IsEnabled = true;
             }
-            previousBt.IsEnabled = false;
+            btnPrevious.IsEnabled = false;
             Album_Load(GetAlbums(1, 4));
         }
 
