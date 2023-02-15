@@ -7,6 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <StackPanel>
+            <Menu Name="Menu" Width="Auto" Height="20">
+                <MenuItem Header="Shopping" HorizontalAlignment="Left" Width="80" Click="shopping_Click"/>
+                <MenuItem Header="Cart" HorizontalAlignment="Left" Width="60" Click="cart_Click"/>
+                <MenuItem Header="Login" x:Name="menuLogin" HorizontalAlignment="Left" Width="90" Click="login_Click"/>
+                <MenuItem Header="Album" x:Name="menuAlbum" HorizontalAlignment="Left" Width="60" Click="album_Click" IsEnabled="False"/>
+            </Menu>
+            <StackPanel>
+                <Image Name="imgBackground" Width="800" Height="365"></Image>
+            </StackPanel>
+            <TextBlock x:Name="tbAuthor" HorizontalAlignment="Center" ></TextBlock>
+        </StackPanel>
     </Grid>
 </Window>

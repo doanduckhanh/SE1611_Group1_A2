@@ -1,0 +1,78 @@
+﻿<Window x:Class="SE1611_Group1_A2.AlbumWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SE1611_Group1_A2"
+        mc:Ignorable="d"
+        Title="AlbumWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel  Grid.Column="0" Margin="10">
+                <Label Name ="lbGenre" Content="Genre"/>
+                <ComboBox Name="cbGenre"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="GenreId"
+                      SelectedValue="{Binding Path=GenreId,Mode=OneWay}"
+                      DataContext="{Binding ElementName=lvList,Path=SelectedItem}" />
+                <Label Name ="lbArtist" Content="Artist"/>
+                <ComboBox Name="cbArtist"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="ArtistId"
+                      SelectedValue="{Binding Path=ArtistId,Mode=OneWay}"
+                      DataContext="{Binding ElementName=lvList,Path=SelectedItem}" />
+                <Label Name ="lbTitle" Content="Title"/>
+                <TextBox Name="txtTitle"
+                      Text="{Binding Path=Title, Mode=OneWay}" 
+                      DataContext="{Binding ElementName=lvList, 
+                      Path=SelectedItem}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="10">
+                <Label Name ="lbPrice" Content="Price"/>
+                <TextBox Name="txtPrice"
+                      Text="{Binding Path=Price, Mode=OneWay}" 
+                      DataContext="{Binding ElementName=lvList, 
+                      Path=SelectedItem}" />
+                <Button x:Name="btnAlbumUrl" Content="AlbumUrl" Width="80" HorizontalAlignment="Left" Margin="5" Click="btnAlbumUrl_Click"/>
+                <TextBox Name="txtAlbumUrl"
+                      Text="{Binding Path=AlbumUrl, Mode=OneWay}" 
+                      DataContext="{Binding ElementName=lvList, 
+                      Path=SelectedItem}" />
+                <TextBox Name="txtAlbumId" Visibility="Hidden"
+                      Text="{Binding Path=AlbumId, Mode=OneWay}" 
+                      DataContext="{Binding ElementName=lvList, 
+                      Path=SelectedItem}" />
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="btnAdd" Margin="10" Width="80" Content="Add" Click="btnAdd_Click"/>
+            <Button x:Name="btnUpdate" Margin="10" Width="80" Content="Update" Click="btnUpdate_Click"/>
+            <Button x:Name="btnDelete" Margin="10" Width="80" Content="Delete" Click="btnDelete_Click"/>
+        </StackPanel>
+        <ListView Grid.Row="2" Name="lvList" Width="Auto" Height="230" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Genre" Width="50"
+                     DisplayMemberBinding="{Binding Path=GenreId}"/>
+                    <GridViewColumn Header="Artist" Width="50"
+                     DisplayMemberBinding="{Binding Path=ArtistId}"/>
+                    <GridViewColumn Header="Title" Width="250"
+                     DisplayMemberBinding="{Binding Path=Title}"/>
+                    <GridViewColumn Header="Price" Width="100"
+                     DisplayMemberBinding="{Binding Path=Price}"/>
+                    <GridViewColumn Header="AlbumUrl" Width="200"
+                     DisplayMemberBinding="{Binding Path=AlbumUrl}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
