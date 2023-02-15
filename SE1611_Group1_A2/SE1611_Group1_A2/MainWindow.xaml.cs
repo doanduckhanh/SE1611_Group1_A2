@@ -26,11 +26,14 @@ namespace SE1611_Group1_A2
         {
             InitializeComponent();
             tbAuthor.Text = "SE1611_Group1 - Nguyễn Tiến Nhất | Đoàn Đức Khánh | Nguyễn Hữu Thành | Nguyễn Huy Hoàng";
+            BitmapImage bitmap = new BitmapImage(new Uri("Background.png", UriKind.Relative));
+            imgBackground.Source = bitmap;
         }
 
         private void shopping_Click(object sender, RoutedEventArgs e)
         {
-
+            ShoppingWindow shoppingWindow = new ShoppingWindow();
+            shoppingWindow.Show();
         }
         private void cart_Click(object sender, RoutedEventArgs e)
         {
@@ -40,7 +43,13 @@ namespace SE1611_Group1_A2
         {
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
-            loginSuccessful();
+            string? userName = UserSession.UserName;
+            if(userName != null ) {
+                loginSuccessful();
+            }else
+            {
+                logoutSuccessful();
+            }
         }
         private void logout_Click(object sender, RoutedEventArgs e)
         {
@@ -52,11 +61,11 @@ namespace SE1611_Group1_A2
         public void loginSuccessful()
         {
             string? userName = UserSession.UserName;
-            
+            int role = UserSession.Role;
             menuLogin.Header = "Logout ("+userName+")";
             menuLogin.Click -= login_Click;
             menuLogin.Click += logout_Click;
-            if(LoginWindow.adminRole == true)
+            if(role == 1)
             {
                 menuAlbum.IsEnabled = true;
             }
@@ -77,12 +86,13 @@ namespace SE1611_Group1_A2
         public void clearUserData()
         {
             UserSession.UserName = null;
-            UserSession.Password= null;
-
+            UserSession.Password = null;
+            UserSession.Role = 0;
         }
         private void album_Click(object sender, RoutedEventArgs e)
         {
-
+            AlbumWindow albumWindow = new AlbumWindow();
+            albumWindow.Show();
         }
     }
 }
