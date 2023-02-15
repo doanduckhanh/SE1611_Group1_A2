@@ -34,9 +34,9 @@ namespace SE1611_Group1_A2
         {
             string username = tbUsername.Text.ToString();
             string password = pbPassword.Password.ToString();
-            int adRole = 1, uRole = 0;
+            
 
-            //  MessageBox.Show(password);
+            
             if (AuthenticateUser(username, password))
             {
                 var user = dbContext.Users
@@ -45,16 +45,13 @@ namespace SE1611_Group1_A2
                 UserSession.UserName = user.UserName;
                 UserSession.Password = user.Password;
                 UserSession.Role = user.Role;
-          
-                LoginWindow loginWindow = new LoginWindow();
-             
-                if (user?.Role == adRole)
+                if(username.Equals(user.UserName, StringComparison.Ordinal) && password.Equals(user.Password, StringComparison.Ordinal))
                 {
                     this.Close();
                 }
-                else if (user?.Role == uRole)
+                else
                 {
-                    this.Close();
+                    MessageBox.Show("Username or password incorrect");
                 }
             }
             else

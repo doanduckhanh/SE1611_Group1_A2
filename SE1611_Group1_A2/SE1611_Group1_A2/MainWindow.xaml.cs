@@ -45,20 +45,20 @@ namespace SE1611_Group1_A2
             loginWindow.ShowDialog();
             string? userName = UserSession.UserName;
             if(userName != null ) {
-                loginSuccessful();
+                handleLogin();
             }else
             {
-                logoutSuccessful();
+                handleLogout();
             }
         }
         private void logout_Click(object sender, RoutedEventArgs e)
         {
             clearUserData();
-            logoutSuccessful();
+            handleLogout();
         }
 
 
-        public void loginSuccessful()
+        public void handleLogin()
         {
             string? userName = UserSession.UserName;
             int role = UserSession.Role;
@@ -75,7 +75,7 @@ namespace SE1611_Group1_A2
             }
             
         }
-        public void logoutSuccessful()
+        public void handleLogout()
         {
             menuLogin.Header = "Login";
             menuLogin.Click -= logout_Click;
