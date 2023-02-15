@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Background.png" />
     <None Remove="yasuo.png" />
   </ItemGroup>
 
@@ -22,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Background.png" />
     <Resource Include="yasuo.png" />
   </ItemGroup>
 

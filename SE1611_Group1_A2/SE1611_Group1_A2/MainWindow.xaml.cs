@@ -26,11 +26,14 @@ namespace SE1611_Group1_A2
         {
             InitializeComponent();
             tbAuthor.Text = "SE1611_Group1 - Nguyễn Tiến Nhất | Đoàn Đức Khánh | Nguyễn Hữu Thành | Nguyễn Huy Hoàng";
+            BitmapImage bitmap = new BitmapImage(new Uri("Background.png", UriKind.Relative));
+            imgBackground.Source = bitmap;
         }
 
         private void shopping_Click(object sender, RoutedEventArgs e)
         {
-
+            ShoppingWindow shoppingWindow = new ShoppingWindow();
+            shoppingWindow.Show();
         }
         private void cart_Click(object sender, RoutedEventArgs e)
         {
@@ -47,8 +50,6 @@ namespace SE1611_Group1_A2
             {
                 logoutSuccessful();
             }
-            
-
         }
         private void logout_Click(object sender, RoutedEventArgs e)
         {
@@ -90,7 +91,8 @@ namespace SE1611_Group1_A2
         }
         private void album_Click(object sender, RoutedEventArgs e)
         {
-
+            AlbumWindow albumWindow = new AlbumWindow();
+            albumWindow.Show();
         }
     }
 }

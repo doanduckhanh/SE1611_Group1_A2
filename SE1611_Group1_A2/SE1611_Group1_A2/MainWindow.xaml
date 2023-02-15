@@ -15,7 +15,7 @@
                 <MenuItem Header="Album" x:Name="menuAlbum" HorizontalAlignment="Left" Width="60" Click="album_Click" IsEnabled="False"/>
             </Menu>
             <StackPanel>
-                <Image Source="/Background.png"/>
+                <Image Name="imgBackground" Width="800" Height="365"></Image>
             </StackPanel>
             <TextBlock x:Name="tbAuthor" HorizontalAlignment="Center" ></TextBlock>
         </StackPanel>
