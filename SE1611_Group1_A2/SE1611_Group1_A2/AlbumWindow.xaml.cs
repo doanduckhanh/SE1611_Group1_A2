@@ -158,16 +158,33 @@ namespace SE1611_Group1_A2
 
         private void btnAlbumUrl_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.DefaultExt = ".png";
-            dlg.FileName = "./images";
-            Nullable<bool> result = dlg.ShowDialog();
-            if (result == true)
+            try
             {
-                // Open document
-                string filename = dlg.FileName;
-                txtAlbumUrl.Text = filename;
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+                dlg.DefaultExt = ".png";
+                Nullable<bool> result = dlg.ShowDialog();
+                if (result == true)
+                {
+                    // Open document
+                    string filename = dlg.FileName;
+                    if (filename.Contains(@"\Images"))
+                    {
+                        string s = filename.Substring(filename.IndexOf(@"\Images"));
+                        string sw = s.Replace(@"\", "/");
+                        txtAlbumUrl.Text = sw;
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid select");
+                    }
+                    
+                }
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }
