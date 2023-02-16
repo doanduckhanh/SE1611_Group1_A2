@@ -33,7 +33,7 @@ namespace SE1611_Group1_A2
         private void shopping_Click(object sender, RoutedEventArgs e)
         {
             ShoppingWindow shoppingWindow = new ShoppingWindow();
-            shoppingWindow.Show();
+            shoppingWindow.ShowDialog();
         }
         private void cart_Click(object sender, RoutedEventArgs e)
         {
@@ -84,7 +84,7 @@ namespace SE1611_Group1_A2
         private void album_Click(object sender, RoutedEventArgs e)
         {
             AlbumWindow albumWindow = new AlbumWindow();
-            albumWindow.Show();
+            albumWindow.ShowDialog();
         }
     }
 }

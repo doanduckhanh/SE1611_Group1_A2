@@ -32,6 +32,35 @@ namespace SE1611_Group1_A2
        
         private void btn_Login(object sender, RoutedEventArgs e)
         {
+            handleInput();
+        }
+
+        private void btn_EnterLogin(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                handleInput();
+            }
+        }
+        private void Password_Enter(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                handleInput();
+            }
+        }
+        public bool AuthenticateUser(string username, string password)
+        {
+            // use entity framework to retrieve the user information from the database
+            var user = dbContext.Users
+                .Where(u => u.UserName == username && u.Password == password)
+                .FirstOrDefault();
+
+            return user != null;
+        }
+
+        private void handleInput()
+        {
             string username = tbUsername.Text.Trim().ToString();
             string password = pbPassword.Password.Trim().ToString();
 
@@ -58,15 +87,6 @@ namespace SE1611_Group1_A2
             {
                 MessageBox.Show("Don't have user");
             }
-        }
-        public bool AuthenticateUser(string username, string password)
-        {
-            // use entity framework to retrieve the user information from the database
-            var user = dbContext.Users
-                .Where(u => u.UserName == username && u.Password == password)
-                .FirstOrDefault();
-
-            return user != null;
         }
 
 

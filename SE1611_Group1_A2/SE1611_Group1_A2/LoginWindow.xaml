@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SE1611_Group1_A2"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="350" Width="400">
+        Title="LoginWindow" Height="350" Width="400"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid Background="LightBlue">
             <StackPanel Margin="10">
@@ -13,10 +14,10 @@
                 <Label Margin="55, 0, 0, 0" FontSize="18" Content="Username:" FontStyle="Normal" FontFamily="Times New Roman"></Label>
                 <TextBox Name="tbUsername" Width="250" Height="25" FontSize="16"/>
                 <Label Margin="55, 0, 0, 0" FontSize="18" Content="Password:" FontStyle="Normal" FontFamily="Times New Roman"></Label>
-                <PasswordBox Name="pbPassword" Width="250" Height="25"/>
+                <PasswordBox Name="pbPassword" Width="250" Height="25" PreviewKeyDown="Password_Enter"/>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25">
-                    <Button x:Name="btnLogin" Margin="10" Width="100" Height="30" Content="Login" Click="btn_Login"></Button>
+                    <Button x:Name="btnLogin" Margin="10" Width="100" Height="30" Content="Login" Click="btn_Login" PreviewKeyDown="btn_EnterLogin"></Button>
                     <Button x:Name="btnCancel" Margin="10" Width="100" Height="30" Content="Cancel" Click="btn_Cancel"></Button>
                 </StackPanel>
             </StackPanel>
