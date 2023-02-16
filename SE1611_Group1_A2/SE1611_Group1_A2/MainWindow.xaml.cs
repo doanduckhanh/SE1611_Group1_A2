@@ -41,15 +41,9 @@ namespace SE1611_Group1_A2
         }
         private void login_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow loginWindow = new LoginWindow();
+            var loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
-            string? userName = UserSession.UserName;
-            if(userName != null ) {
-                handleLogin();
-            }else
-            {
-                handleLogout();
-            }
+            if (UserSession.UserName != null) handleLogin();
         }
         private void logout_Click(object sender, RoutedEventArgs e)
         {
@@ -60,12 +54,10 @@ namespace SE1611_Group1_A2
 
         public void handleLogin()
         {
-            string? userName = UserSession.UserName;
-            int role = UserSession.Role;
-            menuLogin.Header = "Logout ("+userName+")";
+            menuLogin.Header = "Logout ("+ UserSession.UserName + ")";
             menuLogin.Click -= login_Click;
             menuLogin.Click += logout_Click;
-            if(role == 1)
+            if(UserSession.Role == 1)
             {
                 menuAlbum.IsEnabled = true;
             }
