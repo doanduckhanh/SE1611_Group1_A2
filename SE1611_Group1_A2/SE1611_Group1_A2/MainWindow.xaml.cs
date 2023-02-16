@@ -60,6 +60,7 @@ namespace SE1611_Group1_A2
         {          
             clearUserData();
             handleLogout();
+            MainWindow main = new MainWindow();
         }
 
 
@@ -102,7 +103,8 @@ namespace SE1611_Group1_A2
         }
         private void album_Click(object sender, RoutedEventArgs e)
         {
-
+            AlbumWindow albumWindow = new AlbumWindow();
+            albumWindow.ShowDialog();
         }
 
         //-----------------------------
@@ -133,8 +135,7 @@ namespace SE1611_Group1_A2
                           select (int?)cartItems.Count).Count();
             // Return 0 if all entries are null
             return count ?? 0;
-            AlbumWindow albumWindow = new AlbumWindow();
-            albumWindow.ShowDialog();
+            
         }
     }
 }

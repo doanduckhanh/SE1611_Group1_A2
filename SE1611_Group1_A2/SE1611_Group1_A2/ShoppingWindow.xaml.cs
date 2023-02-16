@@ -21,7 +21,7 @@ namespace SE1611_Group1_A2
     public partial class ShoppingWindow : Window
     {
         private static MusicStoreContext context = new MusicStoreContext();
-        public ShoppingCart shoppingCart { get; set; } = ShoppingCart.GetCart();
+        public string ShoppingCartId { get; set; }
         private PaginatedList<Album> albumPaging = new PaginatedList<Album>(context.Albums.ToList(), context.Albums.Count(), 1, 4);
         List<Album> albums = context.Albums.ToList();
         //LoginWindow login = new LoginWindow();
@@ -101,11 +101,10 @@ namespace SE1611_Group1_A2
 
         private void btnAddToCart_Click(object sender, RoutedEventArgs e)
         {
-            //if (login.UserId != -1)
-            //{
-            shoppingCart.AddToCart((sender as Button).Tag as Album);
-            //CartWindow cartWindow = new CartWindow();
-            //cartWindow.Show();
+            var cart = GetCart();
+            AddToCart((sender as Button).Tag as Album,cart.ShoppingCartId);
+            CartWindow cartWindow = new CartWindow();
+            cartWindow.ShowDialog();
             //}
             //else
             //{
@@ -115,6 +114,60 @@ namespace SE1611_Group1_A2
             //login.Close();
             //}
             //}
+        }
+
+        public static ShoppingWindow GetCart()
+        {
+            var cart = new ShoppingWindow();
+            cart.ShoppingCartId = cart.GetCartId();
+            return cart;
+        }
+        public string GetCartId()
+        {
+            if (Settings.Default["CartId"].ToString().Equals(string.Empty))
+            {
+                if (!Settings.Default["UserName"].ToString().Equals(string.Empty))
+                {
+                    Settings.Default["CartId"] = Settings.Default["UserName"].ToString();
+                }
+
+                else
+                {
+                    Guid tempCartId = Guid.NewGuid();
+                    Settings.Default["CartId"] = tempCartId.ToString();
+                }
+                Settings.Default.Save();
+            }
+            return Settings.Default["CartId"].ToString();
+        }
+
+        public void AddToCart(Album album, String ShoppingCartId)
+        {
+            // Get the matching cart and album instances
+            var cartItem = context.Carts.SingleOrDefault(
+                c => c.CartId == ShoppingCartId
+                && c.AlbumId == album.AlbumId);
+
+            if (cartItem == null)
+            {
+                // Create a new cart item if no cart item exists
+                cartItem = new Cart
+                {
+                    AlbumId = album.AlbumId,
+                    CartId = ShoppingCartId,
+                    Count = 1,
+                    DateCreated = DateTime.Now
+                };
+
+                context.Carts.Add(cartItem);
+            }
+            else
+            {
+                // If the item does exist in the cart, then add one to the quantity
+                cartItem.Count++;
+            }
+            // Save changes
+            context.SaveChanges();
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)

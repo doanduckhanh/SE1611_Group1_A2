@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SE1611_Group1_A2;
 
-internal class Settings
+internal class Settingss
 {
     public static string CartId { get; set; }
     public static string UserName { get; set; }

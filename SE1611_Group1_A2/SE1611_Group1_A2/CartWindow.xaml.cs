@@ -44,14 +44,21 @@ namespace SE1611_Group1_A2
             storeDB.Albums.ToList();
             lvAlbum.ItemsSource = storeDB.Carts.Where(x => x.CartId.Equals(cart.ShoppingCartId)).ToList();
             txtTotal.Text = GetTotal().ToString();
-            
+
+        }
+
+        public static ShoppingWindow GetCart()
+        {
+            var cart = new ShoppingWindow();
+            cart.ShoppingCartId = cart.GetCartId();
+            return cart;
         }
         public int RemoveFromCart(int id)
         {
-            var cart = GetCart();
+            //var cart = GetCart();
             // Get the matching cart and album id
             var cartItem = storeDB.Carts.SingleOrDefault(
-                c => c.CartId == cart.ShoppingCartId
+                c => c.CartId == Settings.Default["CartId"].ToString()
                 && c.RecordId == id);
 
             int itemCount = 0;
@@ -89,12 +96,12 @@ namespace SE1611_Group1_A2
             lvAlbumId_Loaded(sender, e);
         }
 
-        public static ShoppingWindow GetCart()
-        {
-            var cart = new ShoppingWindow();
-            cart.ShoppingCartId = cart.GetCartId();
-            return cart;
-        }
+        //public static ShoppingWindow GetCart()
+        //{
+        //    var cart = new ShoppingWindow();
+        //    cart.ShoppingCartId = cart.GetCartId();
+        //    return cart;
+        //}
 
         public string GetCartId()
         {
