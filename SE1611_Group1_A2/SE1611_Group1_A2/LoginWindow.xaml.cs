@@ -32,11 +32,11 @@ namespace SE1611_Group1_A2
        
         private void btn_Login(object sender, RoutedEventArgs e)
         {
-            string username = tbUsername.Text.ToString();
-            string password = pbPassword.Password.ToString();
-            
+            string username = tbUsername.Text.Trim().ToString();
+            string password = pbPassword.Password.Trim().ToString();
 
-            
+
+
             if (AuthenticateUser(username, password))
             {
                 var user = dbContext.Users
@@ -45,7 +45,7 @@ namespace SE1611_Group1_A2
                 UserSession.UserName = user.UserName;
                 UserSession.Password = user.Password;
                 UserSession.Role = user.Role;
-                if(username.Equals(user.UserName, StringComparison.Ordinal) && password.Equals(user.Password, StringComparison.Ordinal))
+                if (username.Equals(user.UserName, StringComparison.Ordinal) && password.Equals(user.Password, StringComparison.Ordinal))
                 {
                     this.Close();
                 }
@@ -59,9 +59,9 @@ namespace SE1611_Group1_A2
                 MessageBox.Show("Don't have user");
             }
         }
-        public bool AuthenticateUser (string username, string password)
+        public bool AuthenticateUser(string username, string password)
         {
-            // Use Entity Framework to retrieve the user information from the database
+            // use entity framework to retrieve the user information from the database
             var user = dbContext.Users
                 .Where(u => u.UserName == username && u.Password == password)
                 .FirstOrDefault();
@@ -69,8 +69,8 @@ namespace SE1611_Group1_A2
             return user != null;
         }
 
-      
-    
+
+
         private void btn_Cancel(object sender, RoutedEventArgs e)
         {
             this.Close();
