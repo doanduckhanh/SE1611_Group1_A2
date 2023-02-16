@@ -32,39 +32,26 @@ namespace SE1611_Group1_A2
        
         private void btn_Login(object sender, RoutedEventArgs e)
         {
-            string username = tbUsername.Text.ToString();
-            string password = pbPassword.Password.ToString();
-            int adRole = 1, uRole = 0;
+            handleInput();
+        }
 
-            //  MessageBox.Show(password);
-            if (AuthenticateUser(username, password))
+        private void btn_EnterLogin(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
             {
-                var user = dbContext.Users
-                    .Where(u => u.UserName == username && u.Password == password)
-                    .FirstOrDefault();
-                UserSession.UserName = username;
-                UserSession.Password = password;
-                UserSession.Role = user.Role;
-          
-                LoginWindow loginWindow = new LoginWindow();
-             
-                if (user?.Role == adRole)
-                {
-                    this.Close();
-                }
-                else if (user?.Role == uRole)
-                {
-                    this.Close();
-                }
-            }
-            else
-            {
-                MessageBox.Show("Don't have user");
+                handleInput();
             }
         }
-        public bool AuthenticateUser (string username, string password)
+        private void Password_Enter(object sender, KeyEventArgs e)
         {
-            // Use Entity Framework to retrieve the user information from the database
+            if (e.Key == Key.Enter)
+            {
+                handleInput();
+            }
+        }
+        public bool AuthenticateUser(string username, string password)
+        {
+            // use entity framework to retrieve the user information from the database
             var user = dbContext.Users
                 .Where(u => u.UserName == username && u.Password == password)
                 .FirstOrDefault();
@@ -72,8 +59,38 @@ namespace SE1611_Group1_A2
             return user != null;
         }
 
-      
-    
+        private void handleInput()
+        {
+            string username = tbUsername.Text.Trim().ToString();
+            string password = pbPassword.Password.Trim().ToString();
+
+
+
+            if (AuthenticateUser(username, password))
+            {
+                var user = dbContext.Users
+                    .Where(u => u.UserName == username && u.Password == password)
+                    .FirstOrDefault();
+                UserSession.UserName = user.UserName;
+                UserSession.Password = user.Password;
+                UserSession.Role = user.Role;
+                if (username.Equals(user.UserName, StringComparison.Ordinal) && password.Equals(user.Password, StringComparison.Ordinal))
+                {
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Username or password incorrect");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Don't have user");
+            }
+        }
+
+
+
         private void btn_Cancel(object sender, RoutedEventArgs e)
         {
             this.Close();

@@ -22,7 +22,7 @@
                         <Button x:Name="btnSearch" Margin="10" Width="75" Height="25" Content="Search"
                         Click="btnSearch_Click"/>
                     </StackPanel>
-                    <Grid>
+                    <Grid Name="Fgrid">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="260"/>
                             <RowDefinition Height="260"/>
@@ -31,54 +31,6 @@
                             <ColumnDefinition Width="410"></ColumnDefinition>
                             <ColumnDefinition Width="410"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <!--Album 1-->
-                        <DockPanel Name="pnAlbum1" Grid.Row="0" Grid.Column="0">
-                            <StackPanel  Orientation="Vertical"
-                                    HorizontalAlignment="Center" >
-                                <DockPanel>
-                                    <Label Name="lbTitle1" Foreground="Red" Content="Album1: " FontSize="22"/>
-                                    <Label Name="lbPrice1" Foreground="Red" Content="USD " FontSize="22"/>
-                                </DockPanel>
-                                <Image Name="imgAlbum1" Width="180" Source="/yasuo.png"/>
-                                <Button x:Name="btAddToCart1" Content="Add to cart" FontSize="22" Click="btAddToCart_Click" Width="185"/>
-                            </StackPanel>
-                        </DockPanel>
-                        <!--Album 2-->
-                        <DockPanel Name="pnAlbum2" Grid.Row="0" Grid.Column="1">
-                            <StackPanel  Orientation="Vertical"
-                                    HorizontalAlignment="Center">
-                                <DockPanel>
-                                    <Label Name="lbTitle2" Foreground="Red" Content="Album2: " FontSize="22"/>
-                                    <Label Name="lbPrice2" Foreground="Red" Content="USD " FontSize="22"/>
-                                </DockPanel>
-                                <Image Name="imgAlbum2" Width="180" Source="/yasuo.png"/>
-                                <Button x:Name="btAddToCart2" Content="Add to cart" FontSize="22" Click="btAddToCart_Click" Width="185"/>
-                            </StackPanel>
-                        </DockPanel>
-                        <!--Album 3-->
-                        <DockPanel Name="pnAlbum3" Grid.Row="1" Grid.Column="0">
-                            <StackPanel  Orientation="Vertical"
-                                    HorizontalAlignment="Center">
-                                <DockPanel>
-                                    <Label Name="lbTitle3" Foreground="Red" Content="Album1: " FontSize="22"/>
-                                    <Label Name="lbPrice3" Foreground="Red" Content="USD " FontSize="22"/>
-                                </DockPanel>
-                                <Image Name="imgAlbum3" Width="180" Source="/yasuo.png"/>
-                                <Button x:Name="btAddToCart3" Content="Add to cart" FontSize="22" Click="btAddToCart_Click" Width="185"/>
-                            </StackPanel>
-                        </DockPanel>
-                        <!--Album 4-->
-                        <DockPanel Name="pnAlbum4" Grid.Row="1" Grid.Column="1">
-                            <StackPanel  Orientation="Vertical"
-                                    HorizontalAlignment="Center">
-                                <DockPanel>
-                                    <Label Name="lbTitle4" Foreground="Red" Content="Album1: " FontSize="22"/>
-                                    <Label Name="lbPrice4" Foreground="Red" Content="USD " FontSize="22"/>
-                                </DockPanel>
-                                <Image Name="imgAlbum4" Width="180" Source="/yasuo.png"/>
-                                <Button x:Name="btAddToCart4" Content="Add to cart" FontSize="22" Click="btAddToCart_Click" Width="185"/>
-                            </StackPanel>
-                        </DockPanel>
                     </Grid>
                     <StackPanel Orientation="Horizontal"
  HorizontalAlignment="Center" Margin="0,20,0,0" Grid.RowSpan="2">
@@ -87,7 +39,6 @@
                         <Button x:Name="btnNext" Margin="10" Width="80" Content="Next"
  Click="btnNext_Click"/>
                     </StackPanel>
-                    <TextBox Name="tbPage" TextWrapping="Wrap"  Width="20" Text="1"/>
                 </StackPanel>
             </Grid>
         </DockPanel>

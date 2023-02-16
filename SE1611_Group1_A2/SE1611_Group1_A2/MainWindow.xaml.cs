@@ -42,8 +42,8 @@ namespace SE1611_Group1_A2
 
         private void shopping_Click(object sender, RoutedEventArgs e)
         {
-            ShoppingWindow shopping = new ShoppingWindow();
-            shopping.Show();
+            ShoppingWindow shoppingWindow = new ShoppingWindow();
+            shoppingWindow.ShowDialog();
         }
         private void cart_Click(object sender, RoutedEventArgs e)
         {
@@ -52,34 +52,23 @@ namespace SE1611_Group1_A2
         }
         private void login_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow loginWindow = new LoginWindow();
+            var loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
-            string? userName = UserSession.UserName;
-            if(userName != null ) {
-                loginSuccessful();
-            }else
-            {
-                logoutSuccessful();
-            }
-            
-
+            if (UserSession.UserName != null) handleLogin();
         }
         private void logout_Click(object sender, RoutedEventArgs e)
         {          
             clearUserData();
-            logoutSuccessful();
-            MainWindow main = new MainWindow();
+            handleLogout();
         }
 
 
-        public void loginSuccessful()
+        public void handleLogin()
         {
-            string? userName = UserSession.UserName;
-            int role = UserSession.Role;
-            menuLogin.Header = "Logout ("+userName+")";
+            menuLogin.Header = "Logout ("+ UserSession.UserName + ")";
             menuLogin.Click -= login_Click;
             menuLogin.Click += logout_Click;
-            if(role == 1)
+            if(UserSession.Role == 1)
             {
                 menuAlbum.IsEnabled = true;
             }
@@ -94,7 +83,7 @@ namespace SE1611_Group1_A2
             //menuCart.Header = "Cart (" + GetCount() + ")";
 
         }
-        public void logoutSuccessful()
+        public void handleLogout()
         {
             menuLogin.Header = "Login";
             menuLogin.Click -= logout_Click;
@@ -144,6 +133,8 @@ namespace SE1611_Group1_A2
                           select (int?)cartItems.Count).Count();
             // Return 0 if all entries are null
             return count ?? 0;
+            AlbumWindow albumWindow = new AlbumWindow();
+            albumWindow.ShowDialog();
         }
     }
 }

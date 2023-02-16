@@ -20,223 +20,167 @@ namespace SE1611_Group1_A2
     /// </summary>
     public partial class ShoppingWindow : Window
     {
-        MusicStoreContext musicStoreContext = new MusicStoreContext();
-        int pageIndex;
-        int album1;
+        private static MusicStoreContext context = new MusicStoreContext();
+        public ShoppingCart shoppingCart { get; set; } = ShoppingCart.GetCart();
+        private PaginatedList<Album> albumPaging = new PaginatedList<Album>(context.Albums.ToList(), context.Albums.Count(), 1, 4);
+        List<Album> albums = context.Albums.ToList();
+        //LoginWindow login = new LoginWindow();
 
-        public string ShoppingCartId { get; set; }
         public ShoppingWindow()
         {
             InitializeComponent();
-            cbGenre.ItemsSource = musicStoreContext.Genres.ToList();
-            tbPage.Visibility = Visibility.Hidden;
-            pageIndex = int.Parse(tbPage.Text);
-            LoadShop(pageIndex, 0);
-            if (pageIndex == 1)
+            Shopping_Load();
+        }
+
+        private void Shopping_Load()
+        {
+            var listGenre = context.Genres.Distinct().ToList();
+            listGenre.Insert(0, new Genre { GenreId = 0, Name = "All" });
+            cbGenre.ItemsSource = listGenre;
+            cbGenre.DisplayMemberPath = "Name";
+            cbGenre.SelectedValuePath = "GenreId";
+            cbGenre.SelectedIndex = 0;
+            if (albumPaging.PageIndex == 1)
             {
                 btnPrevious.IsEnabled = false;
             }
-            else
-            {
-                btnPrevious.IsEnabled = true;
-            }
-
+            Album_Load(GetAlbums(1, 4));
         }
 
-
-        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        private void Album_Load(PaginatedList<Album> list)
         {
-            LoadShop(1, int.Parse(cbGenre.SelectedValue.ToString()));
+            int i = 0;
+            foreach (var item in list)
+            {              
+                StackPanel stackPanel = new StackPanel();
+                stackPanel.HorizontalAlignment = HorizontalAlignment.Center;
+                stackPanel.Orientation = Orientation.Vertical;
+                Label label = new Label();
+                Image image = new Image();
+                Button button = new Button();
+                label.Content = item.Title +": "+item.Price+ " USD";
+                label.Foreground = Brushes.Red;
+                label.FontSize = 15;
+                label.HorizontalAlignment = HorizontalAlignment.Center;   
+                image.Source = new BitmapImage(new Uri(item.AlbumUrl,UriKind.Relative));
+                image.Width = 180;
+                button.Content = "Add to cart";
+                button.Tag = item;
+                button.Click += btnAddToCart_Click;
+                button.HorizontalAlignment = HorizontalAlignment.Center;
+                button.VerticalAlignment = VerticalAlignment.Center;
+                button.Width = double.NaN;
+                button.Margin = new Thickness(0, 10, 0, 0);
+                stackPanel.Children.Add(label);
+                stackPanel.Children.Add(image);
+                stackPanel.Children.Add(button);
+                Fgrid.Children.Add(stackPanel);
+                if (i == 0)
+                {
+                    Grid.SetRow(stackPanel, 0);
+                    Grid.SetColumn(stackPanel, 0);
+                }
+                else if (i == 1)
+                {
+                    Grid.SetRow(stackPanel, 0);
+                    Grid.SetColumn(stackPanel, 1);
+                }
+                else if (i == 2)
+                {
+                    Grid.SetRow(stackPanel, 1);
+                    Grid.SetColumn(stackPanel, 0);
+                }
+                else if (i == 3)
+                {
+                    Grid.SetRow(stackPanel, 1);
+                    Grid.SetColumn(stackPanel, 1);
+                }
+                i++;
+            }
         }
 
-        private void btnPrevious_Click(object sender, RoutedEventArgs e)
+        private void btnAddToCart_Click(object sender, RoutedEventArgs e)
         {
-            pageIndex = pageIndex - 1;
-            if(cbGenre.SelectedValue != null) {
-                LoadShop(pageIndex, int.Parse(cbGenre.SelectedValue.ToString()));
-            }
-            else
-            {
-                LoadShop(pageIndex, 0);
-            }
-            
-            if (pageIndex == 1)
-            {
-                btnPrevious.IsEnabled = false;
-            }
-            else
-            {
-                btnPrevious.IsEnabled = true;
-            }
+            //if (login.UserId != -1)
+            //{
+            shoppingCart.AddToCart((sender as Button).Tag as Album);
+            //CartWindow cartWindow = new CartWindow();
+            //cartWindow.Show();
+            //}
+            //else
+            //{
+            //login.Show();
+            //if (login.UserId != -1)
+            //{
+            //login.Close();
+            //}
+            //}
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
-            pageIndex = pageIndex + 1;
-            if (cbGenre.SelectedValue != null)
+            Fgrid.Children.Clear();
+            albumPaging = GetAlbums(albumPaging.PageIndex + 1, 4);
+            if (!albumPaging.HasNextPage)
             {
-                LoadShop(pageIndex, int.Parse(cbGenre.SelectedValue.ToString()));
+                btnNext.IsEnabled = false;
             }
             else
             {
-                LoadShop(pageIndex, 0);
+                btnNext.IsEnabled = true;
             }
-            if (pageIndex == 1)
-            {
-                btnPrevious.IsEnabled = false;
-            }
-            else
+            if (albumPaging.HasPreviousPage)
             {
                 btnPrevious.IsEnabled = true;
             }
-        }
-
-        void LoadShop(int pageIndex, int genreid)
-        {
-            if(genreid == 0)
+            else
             {
-                List<Album> albums = new List<Album>();
-                albums = musicStoreContext.Albums.Skip(4*pageIndex).Take(4).ToList();
-                if(albums[0] != null) {
-                    lbTitle1.Content = albums[0].Title;
-                    album1 = albums[0].AlbumId;
-                    lbPrice1.Content = albums[0].Price.ToString() + " USD";
-                } else
-                {
-                    pnAlbum1.Visibility = Visibility.Hidden;
-                }
-                if (albums[1] != null)
-                {
-                    lbTitle2.Content = albums[1].Title;
-                    lbPrice2.Content = albums[1].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum2.Visibility = Visibility.Hidden;
-                }
-                if (albums[2] != null)
-                {
-                    lbTitle3.Content = albums[2].Title;
-                    lbPrice3.Content = albums[2].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum3.Visibility = Visibility.Hidden;
-                }
-                if (albums[0] != null)
-                {
-                    lbTitle4.Content = albums[3].Title;
-                    lbPrice4.Content = albums[3].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum4.Visibility = Visibility.Hidden;
-                }
-
-            } else
-            {
-                List<Album> albums = new List<Album>();
-                albums = musicStoreContext.Albums.Where(x => x.GenreId == genreid).Skip(4 * pageIndex).Take(4).ToList();
-                if (albums[0] != null)
-                {
-                    lbTitle1.Content = albums[0].Title;
-                    lbPrice1.Content = albums[0].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum1.Visibility = Visibility.Hidden;
-                }
-                if (albums[1] != null)
-                {
-                    lbTitle2.Content = albums[1].Title;
-                    lbPrice2.Content = albums[1].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum2.Visibility = Visibility.Hidden;
-                }
-                if (albums[2] != null)
-                {
-                    lbTitle3.Content = albums[2].Title;
-                    lbPrice3.Content = albums[2].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum3.Visibility = Visibility.Hidden;
-                }
-                if (albums[0] != null)
-                {
-                    lbTitle4.Content = albums[3].Title;
-                    lbPrice4.Content = albums[3].Price.ToString() + " USD";
-                }
-                else
-                {
-                    pnAlbum4.Visibility = Visibility.Hidden;
-                }
+                btnPrevious.IsEnabled = false;
             }
+            Album_Load(albumPaging);
         }
 
-        private void btAddToCart_Click(object sender, RoutedEventArgs e)
-        {                
-            var cart = GetCart();
-            var album = musicStoreContext.Albums.SingleOrDefault(x => x.AlbumId == album1);
-            AddToCart(album, cart.ShoppingCartId);
-            CartWindow cartWindow = new CartWindow();
-            cartWindow.Show();
-        }
-
-        public static ShoppingWindow GetCart()
+        private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
-            var cart = new ShoppingWindow();
-            cart.ShoppingCartId = cart.GetCartId();
-            return cart;
-        }
-
-        public string GetCartId()
-        {
-            if (Settings.Default["CartId"].ToString().Equals(string.Empty))
+            Fgrid.Children.Clear();
+            albumPaging = GetAlbums(albumPaging.PageIndex - 1, 4);
+            if (!albumPaging.HasNextPage)
             {
-                if (!Settings.Default["UserName"].ToString().Equals(string.Empty))
-                {
-                    Settings.Default["CartId"] = Settings.Default["UserName"].ToString();
-                }
-                    
-                else
-                {
-                    Guid tempCartId = Guid.NewGuid();
-                    Settings.Default["CartId"] = tempCartId.ToString();
-                }
-                Settings.Default.Save();
-            }
-            return Settings.Default["CartId"].ToString();
-        }
-        public void AddToCart(Album album,String ShoppingCartId)
-        {
-            // Get the matching cart and album instances
-            var cartItem = musicStoreContext.Carts.SingleOrDefault(
-                c => c.CartId == ShoppingCartId
-                && c.AlbumId == album.AlbumId);
-
-            if (cartItem == null)
-            {
-                // Create a new cart item if no cart item exists
-                cartItem = new Cart
-                {
-                    AlbumId = album.AlbumId,
-                    CartId = ShoppingCartId,
-                    Count = 1,
-                    DateCreated = DateTime.Now
-                };
-
-                musicStoreContext.Carts.Add(cartItem);
+                btnNext.IsEnabled = false;
             }
             else
             {
-                // If the item does exist in the cart, then add one to the quantity
-                cartItem.Count++;
+                btnNext.IsEnabled = true;
             }
-            // Save changes
-            musicStoreContext.SaveChanges();
+            if (albumPaging.HasPreviousPage)
+            {
+                btnPrevious.IsEnabled = true;
+            }
+            else
+            {
+                btnPrevious.IsEnabled = false;
+            }
+            Album_Load(albumPaging);
+        }
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            if ((int)cbGenre.SelectedValue != 0)
+                albums = context.Albums.Where(x => x.GenreId == (int)cbGenre.SelectedValue).ToList();
+            else
+                albums = context.Albums.ToList();
+            albumPaging = new PaginatedList<Album>(albums, albums.Count, 1, 4);
+            Fgrid.Children.Clear();
+            if (albumPaging.HasNextPage)
+            {
+                btnNext.IsEnabled = true;
+            }
+            btnPrevious.IsEnabled = false;
+            Album_Load(GetAlbums(1, 4));
+        }
+
+        public PaginatedList<Album> GetAlbums(int pageIndex, int pageSize)
+        {
+            return PaginatedList<Album>.Create(albums.AsQueryable<Album>(), pageIndex, pageSize);
         }
 
 
