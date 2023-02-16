@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SE1611_Group1_A2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" MaxHeight="450" MinHeight="450" MaxWidth="800" MinWidth="800">
     <Grid>
         <StackPanel>
             <Menu Name="Menu" Width="Auto" Height="20">
