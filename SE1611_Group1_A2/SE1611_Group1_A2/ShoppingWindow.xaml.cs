@@ -61,9 +61,8 @@ namespace SE1611_Group1_A2
                 label.Content = item.Title +": "+item.Price+ " USD";
                 label.Foreground = Brushes.Red;
                 label.FontSize = 15;
-                label.HorizontalAlignment = HorizontalAlignment.Center;
-                //String url = item.AlbumUrl.Replace("/", "\\");
-                image.Source = new BitmapImage(new Uri("/yasuo.png",UriKind.Relative));
+                label.HorizontalAlignment = HorizontalAlignment.Center;   
+                image.Source = new BitmapImage(new Uri(item.AlbumUrl,UriKind.Relative));
                 image.Width = 180;
                 button.Content = "Add to cart";
                 button.Tag = item;
