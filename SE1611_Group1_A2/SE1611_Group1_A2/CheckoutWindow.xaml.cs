@@ -24,7 +24,10 @@ namespace SE1611_Group1_A2
         {
             InitializeComponent();
         }
-
+        public CheckoutWindow(string total):this()
+        {
+            txtTotal.Text = total;
+        }
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             Order order = new Order();

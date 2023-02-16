@@ -51,7 +51,7 @@
                         <StackPanel Height="177" Margin="0,25,0,0" HorizontalAlignment="Center" Width="140">
                             <Label Name="lbTotal" Content="Total: " Width="123" FontWeight="DemiBold" />
                             <TextBox Name="txtTotal" HorizontalAlignment="Stretch"
-                             Height="25"/>
+                             Height="25" IsEnabled="False"/>
                             <Label Name="lbCash" Content="Cash: " Width="123" FontWeight="DemiBold" />
                             <TextBox Name="txtCash" HorizontalAlignment="Stretch"
                              Height="25"/>
