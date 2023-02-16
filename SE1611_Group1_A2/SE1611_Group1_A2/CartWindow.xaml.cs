@@ -34,10 +34,16 @@ namespace SE1611_Group1_A2
 
         //--------------------------------------- 
         private void btnCheckout_Click(object sender, RoutedEventArgs e)
-        {           
-            
-            CheckoutWindow checkoutWindow = new CheckoutWindow(GetTotal().ToString());
-            checkoutWindow.ShowDialog();
+        {
+            if (GetTotal() > 0)
+            {
+                CheckoutWindow checkoutWindow = new CheckoutWindow(GetTotal().ToString());
+                checkoutWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Total must be > 0");
+            }
         }
 
         private void lvAlbumId_Loaded(object sender, RoutedEventArgs e)

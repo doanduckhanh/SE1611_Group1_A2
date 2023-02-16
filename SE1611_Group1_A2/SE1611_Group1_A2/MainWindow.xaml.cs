@@ -36,7 +36,7 @@ namespace SE1611_Group1_A2
             Settings.Default["UserName"] = string.Empty;
             Settings.Default.Save();
             
-            MessageBox.Show(Settings.Default["CartId"].ToString() + "-" + Settings.Default["UserName"].ToString());
+            //MessageBox.Show(Settings.Default["CartId"].ToString() + "-" + Settings.Default["UserName"].ToString());
             
         }
 
