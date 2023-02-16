@@ -1,4 +1,5 @@
-﻿using SE1611_Group1_A2.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SE1611_Group1_A2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +23,21 @@ namespace SE1611_Group1_A2
     /// </summary>
     public partial class MainWindow : Window
     {
+        MusicStoreContext dbContext;
         public MainWindow()
         {
             InitializeComponent();
+            dbContext = new MusicStoreContext();
             tbAuthor.Text = "SE1611_Group1 - Nguyễn Tiến Nhất | Đoàn Đức Khánh | Nguyễn Hữu Thành | Nguyễn Huy Hoàng";
             BitmapImage bitmap = new BitmapImage(new Uri("Background.png", UriKind.Relative));
             imgBackground.Source = bitmap;
+
+            Settings.Default["CartId"] = string.Empty;
+            Settings.Default["UserName"] = string.Empty;
+            Settings.Default.Save();
+
+            MessageBox.Show(Settings.Default["CartId"].ToString() + "-" + Settings.Default["UserName"].ToString());
+            
         }
 
         private void shopping_Click(object sender, RoutedEventArgs e)
@@ -55,11 +65,10 @@ namespace SE1611_Group1_A2
 
         }
         private void logout_Click(object sender, RoutedEventArgs e)
-        {
+        {          
             clearUserData();
             logoutSuccessful();
-            Settings.Default["CartId"] = "";
-            Settings.Default.Save();
+            MainWindow main = new MainWindow();
         }
 
 
@@ -78,7 +87,11 @@ namespace SE1611_Group1_A2
             {
                 menuAlbum.IsEnabled = false;
             }
-            
+
+            Settings.Default["UserName"] = UserSession.UserName;
+            Settings.Default.Save();
+            MigrateCart();
+
         }
         public void logoutSuccessful()
         {
@@ -86,6 +99,9 @@ namespace SE1611_Group1_A2
             menuLogin.Click -= logout_Click;
             menuLogin.Click += login_Click;
             menuAlbum.IsEnabled = false;
+
+            Settings.Default["UserName"] = string.Empty;
+            Settings.Default.Save();
         }
 
         public void clearUserData()
@@ -97,6 +113,27 @@ namespace SE1611_Group1_A2
         private void album_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        //-----------------------------
+        public void MigrateCart()
+        {
+            var shoppingCart = dbContext.Carts.Where(c => c.CartId == Settings.Default["CartId"].ToString()).ToList();
+            foreach (Cart item in shoppingCart)
+            {
+                Cart userCartItem = dbContext.Carts.First(c => c.CartId == Settings.Default["UserName"].ToString() && c.AlbumId == item.AlbumId);
+                if (userCartItem != null)
+                {
+                    userCartItem.Count += item.Count;
+                    dbContext.Carts.Remove(item);
+                }
+                else
+                {
+                    item.CartId = Settings.Default["UserName"].ToString();
+                }
+            }
+            dbContext.SaveChanges();
+            Settings.Default["CartId"] = string.Empty;
         }
     }
 }

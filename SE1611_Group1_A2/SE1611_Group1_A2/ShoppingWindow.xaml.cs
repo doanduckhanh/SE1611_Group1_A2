@@ -40,11 +40,6 @@ namespace SE1611_Group1_A2
             {
                 btnPrevious.IsEnabled = true;
             }
-            //check login và đổ items vào acc
-            //if(UserSession.UserName != null)
-            //{
-            //    MigrateCart();
-            //}
 
         }
 
@@ -201,8 +196,11 @@ namespace SE1611_Group1_A2
         {
             if (Settings.Default["CartId"].ToString().Equals(string.Empty))
             {
-                if (UserSession.UserName != null)
-                    Settings.Default["CartId"] = UserSession.UserName;
+                if (!Settings.Default["UserName"].ToString().Equals(string.Empty))
+                {
+                    Settings.Default["CartId"] = Settings.Default["UserName"].ToString();
+                }
+                    
                 else
                 {
                     Guid tempCartId = Guid.NewGuid();
@@ -241,19 +239,6 @@ namespace SE1611_Group1_A2
             musicStoreContext.SaveChanges();
         }
 
-        // When a user has logged in, migrate their shopping cart to
-        // be associated with their username
-        //public void MigrateCart()
-        //{
-        //    var shoppingCart = musicStoreContext.Carts.Where(c => c.CartId == Settings.Default["CartId"].ToString());
-        //    foreach (Cart item in shoppingCart)
-        //    {
-        //        item.CartId = UserSession.UserName;
-        //    }
-        //    musicStoreContext.SaveChanges();
-        //    Settings.Default["CartId"] = string.Empty;
-        //    Settings.Default.Save();
-        //}
 
     }
 }
