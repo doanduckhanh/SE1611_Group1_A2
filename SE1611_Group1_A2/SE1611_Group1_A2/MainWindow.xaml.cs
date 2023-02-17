@@ -42,12 +42,12 @@ namespace SE1611_Group1_A2
 
         private void shopping_Click(object sender, RoutedEventArgs e)
         {
-            ShoppingWindow shoppingWindow = new ShoppingWindow();
+            ShoppingWindow shoppingWindow = new ShoppingWindow(this);
             shoppingWindow.ShowDialog();
         }
         private void cart_Click(object sender, RoutedEventArgs e)
         {
-            CartWindow cartWindow = new CartWindow();
+            CartWindow cartWindow = new CartWindow(this);
             cartWindow.ShowDialog();
         }
         private void login_Click(object sender, RoutedEventArgs e)
@@ -84,6 +84,10 @@ namespace SE1611_Group1_A2
             menuCart.Header = "Cart (" + GetCount() + ")";
 
         }
+        public void UpdateCartNumber()
+        {
+            menuCart.Header = "Cart (" + GetCount() + ")";
+        }
         public void handleLogout()
         {
             menuLogin.Header = "Login";
@@ -93,6 +97,7 @@ namespace SE1611_Group1_A2
 
             Settings.Default["UserName"] = string.Empty;
             Settings.Default.Save();
+            menuCart.Header = "Cart (0)";
         }
 
         public void clearUserData()
@@ -131,7 +136,7 @@ namespace SE1611_Group1_A2
         {
             // Get the count of each item in the cart and sum them up
             int? count = (from cartItems in dbContext.Carts
-                          where cartItems.CartId == Settings.Default["UserName"].ToString()
+                          where cartItems.CartId == Settings.Default["CartId"].ToString()
                           select (int?)cartItems.Count).Count();
             // Return 0 if all entries are null
             return count ?? 0;

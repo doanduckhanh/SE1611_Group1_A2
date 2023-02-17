@@ -15,6 +15,7 @@ namespace SE1611_Group1_A2
     {
         MusicStoreContext storeDB = new MusicStoreContext();
         string ShoppingCartId { get; set; }
+        private MainWindow mainWindow;
         public CartWindow()
         {
             InitializeComponent();
@@ -29,6 +30,12 @@ namespace SE1611_Group1_A2
             //    Settings.Default["UserName"] = string.Empty;
             //    Settings.Default.Save();
             //}          
+        }
+        public CartWindow(MainWindow mainWindow)
+        {
+            InitializeComponent();
+            this.mainWindow = mainWindow;
+                     
         }
 
 
@@ -91,6 +98,7 @@ namespace SE1611_Group1_A2
                 }
                 // Save changes
                 storeDB.SaveChanges();
+                mainWindow.UpdateCartNumber();
             }
             return itemCount;
         }

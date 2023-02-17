@@ -25,11 +25,17 @@ namespace SE1611_Group1_A2
         private PaginatedList<Album> albumPaging = new PaginatedList<Album>(context.Albums.ToList(), context.Albums.Count(), 1, 4);
         List<Album> albums = context.Albums.ToList();
         //LoginWindow login = new LoginWindow();
-
+        private MainWindow mainWindow;
         public ShoppingWindow()
         {
             InitializeComponent();
             Shopping_Load();
+        }
+        public ShoppingWindow(MainWindow mainWindow)
+        {
+            InitializeComponent();
+            Shopping_Load();
+            this.mainWindow = mainWindow;
         }
 
         private void Shopping_Load()
@@ -103,7 +109,8 @@ namespace SE1611_Group1_A2
         {
             var cart = GetCart();
             AddToCart((sender as Button).Tag as Album,cart.ShoppingCartId);
-            CartWindow cartWindow = new CartWindow();
+            mainWindow.UpdateCartNumber();
+            CartWindow cartWindow = new CartWindow(mainWindow);
             cartWindow.ShowDialog();
             //}
             //else
