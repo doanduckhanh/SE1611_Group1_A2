@@ -81,7 +81,7 @@ namespace SE1611_Group1_A2
             Settings.Default["UserName"] = UserSession.UserName;
             Settings.Default.Save();
             MigrateCart();
-            //menuCart.Header = "Cart (" + GetCount() + ")";
+            menuCart.Header = "Cart (" + GetCount() + ")";
 
         }
         public void handleLogout()

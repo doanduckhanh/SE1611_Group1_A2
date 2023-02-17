@@ -11,7 +11,7 @@
         <StackPanel>
             <Menu Name="Menu" Width="Auto" Height="20">
                 <MenuItem Header="Shopping" HorizontalAlignment="Left" Width="80" Click="shopping_Click"/>
-                <MenuItem Header="Cart" x:Name="menuCart" HorizontalAlignment="Left" Width="60" Click="cart_Click"/>
+                <MenuItem Header="Cart (0)" x:Name="menuCart" HorizontalAlignment="Left" Width="60" Click="cart_Click"/>
                 <MenuItem Header="Login" x:Name="menuLogin" HorizontalAlignment="Left" Width="90" Click="login_Click"/>
                 <MenuItem Header="Album" x:Name="menuAlbum" HorizontalAlignment="Left" Width="60" Click="album_Click" IsEnabled="False"/>
             </Menu>
