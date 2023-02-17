@@ -113,7 +113,7 @@ namespace SE1611_Group1_A2
             var shoppingCart = dbContext.Carts.Where(c => c.CartId == Settings.Default["CartId"].ToString()).ToList();
             foreach (Cart item in shoppingCart)
             {
-                Cart userCartItem = dbContext.Carts.First(c => c.CartId == Settings.Default["UserName"].ToString() && c.AlbumId == item.AlbumId);
+                Cart userCartItem = dbContext.Carts.FirstOrDefault(c => c.CartId == Settings.Default["UserName"].ToString() && c.AlbumId == item.AlbumId);
                 if (userCartItem != null)
                 {
                     userCartItem.Count += item.Count;
@@ -125,7 +125,7 @@ namespace SE1611_Group1_A2
                 }
             }
             dbContext.SaveChanges();
-            Settings.Default["CartId"] = string.Empty;
+            Settings.Default["CartId"] = Settings.Default["UserName"].ToString();
         }
         public int GetCount()
         {

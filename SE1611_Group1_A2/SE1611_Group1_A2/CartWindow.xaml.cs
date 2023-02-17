@@ -48,8 +48,8 @@ namespace SE1611_Group1_A2
             }
             else
             {
-                LoginWindow loginWindow = new LoginWindow();
-                loginWindow.ShowDialog();
+                MessageBox.Show("You must log in first!");
+                Close();
             }
             
         }
