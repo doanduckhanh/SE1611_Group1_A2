@@ -35,7 +35,7 @@ namespace SE1611_Group1_A2
             Settings.Default["CartId"] = string.Empty;
             Settings.Default["UserName"] = string.Empty;
             Settings.Default.Save();
-            menuCart.Header = "Cart (" + GetCount() + ")";
+            
             //MessageBox.Show(Settings.Default["CartId"].ToString() + "-" + Settings.Default["UserName"].ToString());
 
         }
