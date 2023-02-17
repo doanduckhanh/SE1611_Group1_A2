@@ -35,9 +35,9 @@ namespace SE1611_Group1_A2
             Settings.Default["CartId"] = string.Empty;
             Settings.Default["UserName"] = string.Empty;
             Settings.Default.Save();
-            
+            menuCart.Header = "Cart (" + GetCount() + ")";
             //MessageBox.Show(Settings.Default["CartId"].ToString() + "-" + Settings.Default["UserName"].ToString());
-            
+
         }
 
         private void shopping_Click(object sender, RoutedEventArgs e)
@@ -48,7 +48,7 @@ namespace SE1611_Group1_A2
         private void cart_Click(object sender, RoutedEventArgs e)
         {
             CartWindow cartWindow = new CartWindow();
-            cartWindow.Show();
+            cartWindow.ShowDialog();
         }
         private void login_Click(object sender, RoutedEventArgs e)
         {
